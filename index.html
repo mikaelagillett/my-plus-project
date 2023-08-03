@@ -15,10 +15,50 @@
       integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN"
       crossorigin="anonymous"
     ></script>
+    <script
+      src="https://kit.fontawesome.com/ff4df5c6ce.js"
+      crossorigin="anonymous"
+    ></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300&family=Source+Code+Pro&display=swap"
+      rel="stylesheet"
+    />
     <title>Weather App</title>
   </head>
   <body>
-    <div class="container"></div>
+    <div class="container">
+      <header>
+        <a class="celciusLink">°C</a> | <a class="farenheitLink">°F</a>
+      </header>
+      <form class="search-form">
+        <button type="submit">
+          <i class="fa-solid fa-magnifying-glass search-icon"></i>
+        </button>
+        <input type="text" class="city-search-bar" />
+      </form>
+      <div class="current">
+        <span class="description">Today's Forecast Conditions</span>
+        <button class="current-location-icon">
+          <i class="fa-regular fa-compass"></i>
+        </button>
+        <span class="current-city">Greater Sudbury,</span>
+        <span class="current-country">Canada</span>
+        <span class="current-date">Wednesday, August 2nd 13:50</span>
+        <div class="current-weather">
+          <i class="fa-solid fa-sun current-icon"></i>
+          <span class="current-temp">23°</span>
+        </div>
+        <i class="fa-regular fa-circle-chevron-down"></i>
+      </div>
+      <footer>
+        <a href="https://github.com/mikaelagillett/my-plus-project">
+          open-source coded
+        </a>
+        by mikaela gillett
+      </footer>
+    </div>
     <script src="src/app.js"></script>
   </body>
 </html>
