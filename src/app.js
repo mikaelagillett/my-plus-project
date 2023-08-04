@@ -13,8 +13,8 @@ function closeDropDown(event) {
 function getWeatherData(city) {
   let apiKey = "5332bf2a40c7e9tc684f12abo0f0ab54";
   let apiUrl = "https://api.shecodes.io/weather/v1/current?";
-  axios.get(`${apiUrl}&query=${city}&key=${apiKey}`).then(showCurrentWeather);
-  axios.get(`${apiUrl}&query=${city}&key=${apiKey}`).then(getTimeData);
+  axios.get(`${apiUrl}query=${city}&key=${apiKey}`).then(showCurrentWeather);
+  axios.get(`${apiUrl}query=${city}&key=${apiKey}`).then(getTimeData);
 }
 function showCurrentWeather(response) {
   let currentCity = document.querySelector("#current-city");
@@ -92,11 +92,29 @@ function getSuffix(date) {
     return "th";
   }
 }
+function getGeoLocation() {
+  navigator.geolocation.getCurrentPosition(getGeoWeatherData);
+}
+function getGeoWeatherData(response) {
+  let apiKey = "5332bf2a40c7e9tc684f12abo0f0ab54";
+  let apiUrl = "https://api.shecodes.io/weather/v1/current?";
+  let latitude = response.coords.latitude;
+  let longitude = response.coords.longitude;
+  axios
+    .get(`${apiUrl}&lat=${latitude}&lon=${longitude}&key=${apiKey}`)
+    .then(showCurrentWeather);
+  axios
+    .get(`${apiUrl}&lat=${latitude}&lon=${longitude}&key=${apiKey}`)
+    .then(getTimeData);
+}
 let dropDownButton = document.querySelector("#drop-down-button");
 dropDownButton.addEventListener("click", openDropDown);
 
 let closeDropDownButton = document.querySelector("#close-drop-down-button");
 closeDropDownButton.addEventListener("click", closeDropDown);
+
+let geoLocationButton = document.querySelector("#current-location-button");
+geoLocationButton.addEventListener("click", getGeoLocation);
 
 let city = "Greater Sudbury";
 
