@@ -27,6 +27,7 @@
       href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;500;600;700&display=swap"
       rel="stylesheet"
     />
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
     <title>Weather App</title>
   </head>
   <body>
@@ -47,22 +48,33 @@
             <i class="fa-regular fa-compass"></i>
           </button>
           <br />
-          <span class="current-city">Greater Sudbury,</span><br />
-          <span class="current-country">Canada</span><br />
-          <span class="current-date">Wednesday, August 2nd 13:50</span>
+          <span class="current-city" id="current-city">Greater Sudbury,</span
+          ><br />
+          <span class="current-country" id="current-country">Canada</span><br />
+          <span class="current-date" id="current-date"
+            >Wednesday, August 2nd 13:50</span
+          >
           <div class="current-weather">
             <i class="wi wi-cloudy current-weather-icon"></i>
-            <span class="current-temp">23°</span>
+            <span class="current-temp" id="current-temp">23°</span>
           </div>
           <button class="drop-down-button" id="drop-down-button">
             <i class="fa-solid fa-circle-chevron-down"></i>
           </button>
           <div class="current-drop-down hidden" id="drop-down-section">
-            <span class="weather-description"></span>
+            <span class="weather-description" id="weather-description"
+              >scattered clouds</span
+            >
             <ul class="descriptors">
-              <li class="feels-like">feels like: <span>25</span></li>
-              <li class="humidity">humidity: <span>66</span></li>
-              <li class="wind-speed">wind speed: <span>8</span></li>
+              <li class="feels-like">
+                feels like: <span id="current-feels-like">25</span>
+              </li>
+              <li class="humidity">
+                humidity: <span id="current-humidity">66</span>
+              </li>
+              <li class="wind-speed">
+                wind speed: <span id="current-wind-speed">8</span>
+              </li>
             </ul>
             <button class="close-drop-down-button" id="close-drop-down-button">
               <i class="fa-solid fa-circle-chevron-up"></i>

@@ -93,3 +93,8 @@ footer a {
 .hidden {
   display: none;
 }
+.weather-description {
+  display: flex;
+  justify-content: center;
+  font-weight: 600;
+}
