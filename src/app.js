@@ -107,6 +107,11 @@ function getGeoWeatherData(response) {
     .get(`${apiUrl}&lat=${latitude}&lon=${longitude}&key=${apiKey}`)
     .then(getTimeData);
 }
+function searchCity(response) {
+  response.preventDefault();
+  let city = document.querySelector("#city-search-bar");
+  getWeatherData(city.value);
+}
 let dropDownButton = document.querySelector("#drop-down-button");
 dropDownButton.addEventListener("click", openDropDown);
 
@@ -116,6 +121,5 @@ closeDropDownButton.addEventListener("click", closeDropDown);
 let geoLocationButton = document.querySelector("#current-location-button");
 geoLocationButton.addEventListener("click", getGeoLocation);
 
-let city = "Greater Sudbury";
-
-getWeatherData(`${city}`);
+let search = document.querySelector("#search-form");
+search.addEventListener("submit", searchCity);
