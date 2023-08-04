@@ -3,8 +3,9 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="src/style.css" />
     <link rel="stylesheet" href="src/weather-icons.css" />
+    <link rel="stylesheet" href="src/style.css" />
+
     <link
       href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css"
       rel="stylesheet"
@@ -23,51 +24,58 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300&family=Source+Code+Pro&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;500;600;700&display=swap"
       rel="stylesheet"
     />
     <title>Weather App</title>
   </head>
   <body>
     <div class="container">
-      <header>
-        <a class="celciusLink">°C</a> | <a class="farenheitLink">°F</a>
-      </header>
-      <form class="search-form">
-        <button type="submit">
-          <i class="fa-solid fa-magnifying-glass search-icon"></i>
-        </button>
-        <input type="text" class="city-search-bar" />
-      </form>
-      <div class="current">
-        <span class="description">Today's Forecast Conditions</span>
-        <button class="current-location-icon">
-          <i class="fa-regular fa-compass"></i>
-        </button>
-        <span class="current-city">Greater Sudbury,</span>
-        <span class="current-country">Canada</span>
-        <span class="current-date">Wednesday, August 2nd 13:50</span>
-        <div class="current-weather">
-          <i class="wi wi-cloudy"></i>
-          <span class="current-temp">23°</span>
+      <div class="app">
+        <header>
+          <a class="celciusLink">°C</a> | <a class="farenheitLink">°F</a>
+        </header>
+        <form class="search-form">
+          <button type="submit">
+            <i class="fa-solid fa-magnifying-glass search-icon"></i>
+          </button>
+          <input type="text" class="city-search-bar" />
+        </form>
+        <div class="current">
+          <span class="description">Today's Forecast Conditions</span>
+          <button class="current-location-icon">
+            <i class="fa-regular fa-compass"></i>
+          </button>
+          <br />
+          <span class="current-city">Greater Sudbury,</span><br />
+          <span class="current-country">Canada</span><br />
+          <span class="current-date">Wednesday, August 2nd 13:50</span>
+          <div class="current-weather">
+            <i class="wi wi-cloudy current-weather-icon"></i>
+            <span class="current-temp">23°</span>
+          </div>
+          <button class="drop-down-button">
+            <i class="fa-solid fa-circle-chevron-down"></i>
+          </button>
+          <div class="current-drop-down">
+            <span class="weather-description"></span>
+            <ul class="descriptors">
+              <li class="feels-like">feels like: <span>25</span></li>
+              <li class="humidity">humidity: <span>66</span></li>
+              <li class="wind-speed">wind speed: <span>8</span></li>
+            </ul>
+            <button class="close-drop-down-button">
+              <i class="fa-solid fa-circle-chevron-up"></i>
+            </button>
+          </div>
         </div>
-        <i class="fa-solid fa-circle-chevron-down"></i>
-        <div class="current-drop-down">
-          <span class="weather-description"></span>
-          <ul class="descriptors">
-            <li class="feels-like">feels like: 25</li>
-            <li class="humidity">humidity: 66</li>
-            <li class="wind-speed">wind speed: 8</li>
-          </ul>
-          <i class="fa-solid fa-circle-chevron-up"></i>
-        </div>
+        <footer>
+          <a href="https://github.com/mikaelagillett/my-plus-project">
+            open-source coded
+          </a>
+          by mikaela gillett
+        </footer>
       </div>
-      <footer>
-        <a href="https://github.com/mikaelagillett/my-plus-project">
-          open-source coded
-        </a>
-        by mikaela gillett
-      </footer>
     </div>
     <script src="src/app.js"></script>
   </body>
