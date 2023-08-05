@@ -32,9 +32,10 @@
   </head>
   <body>
     <div class="container">
-      <div class="app">
+      <div class="app background">
         <header>
-          <a class="celciusLink">°C</a> | <a class="farenheitLink">°F</a>
+          <a class="">°C</a> |
+          <a class="inactive">°F</a>
         </header>
         <form class="search-form" id="search-form">
           <button type="submit">
@@ -43,7 +44,9 @@
           <input type="text" class="city-search-bar" id="city-search-bar" />
         </form>
         <div class="current">
-          <span class="description">Today's Forecast Conditions</span>
+          <span class="description" id="description"
+            >Today's Forecast Conditions</span
+          >
           <button class="current-location-icon" id="current-location-button">
             <i class="fa-regular fa-compass"></i>
           </button>
@@ -55,7 +58,7 @@
             >Wednesday, August 2nd 13:50</span
           >
           <div class="current-weather">
-            <i class="wi wi-cloudy current-weather-icon"></i>
+            <i class="wi wi-cloudy" id="main-icon"></i>
             <span class="current-temp" id="current-temp">23°</span>
           </div>
           <button class="drop-down-button" id="drop-down-button">

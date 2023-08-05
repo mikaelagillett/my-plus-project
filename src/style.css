@@ -1,13 +1,15 @@
 .app {
   font-family: "Montserrat", sans-serif;
-  background-image: url("images/foggy-weather.jpg");
-  background-position: center center;
-  background-size: cover;
   width: 500px;
   height: 900px;
   margin: 0 auto;
   padding: 10px 30px;
   color: rgb(255, 255, 255);
+}
+.background {
+  background-image: url("images/foggy-weather.jpg");
+  background-position: center center;
+  background-size: cover;
 }
 button {
   border: none;
@@ -18,7 +20,8 @@ header {
   text-align: right;
 }
 header a {
-  color: rgb(150, 192, 207);
+  color: rgb(255, 255, 255);
+  text-decoration: none;
 }
 form {
   text-align: center;
@@ -53,7 +56,6 @@ footer a {
   font-weight: 700;
   font-size: 12px;
   text-transform: uppercase;
-  color: rgb(150, 192, 207);
   letter-spacing: 5pt;
   padding-top: 20px;
   display: inline-block;
@@ -97,4 +99,28 @@ footer a {
   display: flex;
   justify-content: center;
   font-weight: 600;
+}
+.inactive {
+  text-decoration: underline;
+}
+.inactive:hover {
+  cursor: pointer;
+}
+.secondary-color-clear {
+  color: rgb(255, 232, 219);
+}
+.secondary-color-thunderstorm {
+  color: rgb(255, 244, 202);
+}
+.secondary-color-mist {
+  color: rgb(150, 192, 207);
+}
+.secondary-color-cloudy {
+  color: rgb(85, 118, 130);
+}
+.secondary-color-rain {
+  color: rgb(255, 244, 202);
+}
+.secondary-color-snow {
+  color: rgb(73, 144, 89);
 }

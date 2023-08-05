@@ -15,6 +15,7 @@ function getWeatherData(city) {
   let apiUrl = "https://api.shecodes.io/weather/v1/current?";
   axios.get(`${apiUrl}query=${city}&key=${apiKey}`).then(showCurrentWeather);
   axios.get(`${apiUrl}query=${city}&key=${apiKey}`).then(getTimeData);
+  axios.get(`${apiUrl}query=${city}&key=${apiKey}`).then(getWeatherDesign);
 }
 function showCurrentWeather(response) {
   let currentCity = document.querySelector("#current-city");
@@ -106,12 +107,61 @@ function getGeoWeatherData(response) {
   axios
     .get(`${apiUrl}&lat=${latitude}&lon=${longitude}&key=${apiKey}`)
     .then(getTimeData);
+  axios
+    .get(`${apiUrl}&lat=${latitude}&lon=${longitude}&key=${apiKey}`)
+    .then(getWeatherDesign);
 }
 function searchCity(response) {
   response.preventDefault();
   let city = document.querySelector("#city-search-bar");
   getWeatherData(city.value);
 }
+function getWeatherDesign(response) {
+  console.log(response);
+  let description = response.data.condition.description;
+  let background = document.querySelector(".background");
+  let mainIcon = document.querySelector("#main-icon");
+  let inactiveLink = document.querySelector(".inactive");
+  let descriptionElement = document.querySelector("#description");
+  if (description === "clear sky") {
+    mainIcon.className = "wi wi-day-sunny";
+    background.style.backgroundImage = `url("src/images/clear.jpg")`;
+    inactiveLink.className = "inactive secondary-color-clear";
+    descriptionElement.className = "description secondary-color-clear";
+  } else if (
+    description === "few clouds" ||
+    "scattered clouds" ||
+    "broken clouds"
+  ) {
+    mainIcon.className = "wi wi-cloudy";
+    background.style.backgroundImage = `url("src/images/clouds.jpg")`;
+    inactiveLink.className = "inactive secondary-color-cloudy";
+    descriptionElement.className = "description secondary-color-cloudy";
+  } else if (description === "shower rain" || "rain") {
+    mainIcon.className = "wi wi-raindrops";
+    background.style.backgroundImage = `url("src/images/rain.jpg")`;
+    inactiveLink.className = "inactive secondary-color-rain";
+    descriptionElement.className = "description secondary-color-rain";
+  } else if (description === "thunderstorm") {
+    mainIcon.className = "wi wi-lightning";
+    background.style.backgroundImage = `url("src/images/thunderstorm.jpg")`;
+    inactiveLink.className = "inactive secondary-color-thunderstorm";
+    descriptionElement.className = "description secondary-color-thunderstorm";
+  } else if (description === "snow") {
+    mainIcon.className = "wi wi-snowflake";
+    background.style.backgroundImage = `url("src/images/snow.jpg")`;
+    inactiveLink.className = "inactive secondary-color-snow";
+    descriptionElement.className = "description secondary-color-snow";
+  } else if (description === "mist") {
+    mainIcon.className = "wi wi-fog";
+    background.style.backgroundImage = `url("src/images/foggy-weather.jpg")`;
+    inactiveLink.className = "inactive secondary-color-mist";
+    descriptionElement.className = "description secondary-color-mist";
+  }
+}
+
+getWeatherData("Greater Sudbury");
+
 let dropDownButton = document.querySelector("#drop-down-button");
 dropDownButton.addEventListener("click", openDropDown);
 
