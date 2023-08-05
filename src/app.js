@@ -159,6 +159,18 @@ function getWeatherDesign(response) {
     descriptionElement.className = "description secondary-color-mist";
   }
 }
+function celciusClick() {
+  celciusLink.classList.remove("inactive");
+  farenheitLink.classList.add("inactive");
+  farenheitLink.classList.add(`${celciusClasses}`);
+  celciusLink.classList.remove(`${celciusClasses}`);
+}
+function farenheitClick() {
+  farenheitLink.classList.remove("inactive");
+  celciusLink.classList.add("inactive");
+  celciusLink.classList.add(`${farenheitClasses}`);
+  farenheitLink.classList.remove(`${farenheitClasses}`);
+}
 
 getWeatherData("Greater Sudbury");
 
@@ -173,3 +185,12 @@ geoLocationButton.addEventListener("click", getGeoLocation);
 
 let search = document.querySelector("#search-form");
 search.addEventListener("submit", searchCity);
+
+let celciusLink = document.querySelector("#celcius-link");
+let farenheitLink = document.querySelector("#farenheit-link");
+let farenheitClasses = farenheitLink.classList;
+let celciusClasses = celciusLink.classList;
+console.log(farenheitClasses.value);
+console.log(celciusClasses.value);
+celciusLink.addEventListener("click", celciusClick);
+farenheitLink.addEventListener("click", farenheitClick);
