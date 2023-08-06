@@ -24,6 +24,7 @@ function getWeatherData(data) {
   axios
     .get(`${apiUrl}query=${city}&key=${apiKey}&units=${unit}`)
     .then(getWeatherDesign);
+  getCity(city);
 }
 function showCurrentWeather(response) {
   let currentCity = document.querySelector("#current-city");
@@ -144,14 +145,14 @@ function getWeatherDesign(response) {
     descriptionElement.className = "description secondary-color-clear";
   } else if (
     description === "few clouds" ||
-    "scattered clouds" ||
-    "broken clouds"
+    description === "scattered clouds" ||
+    description === "broken clouds"
   ) {
     mainIcon.className = "wi wi-cloudy";
     background.style.backgroundImage = `url("src/images/clouds.jpg")`;
     inactiveLink.className = "inactive secondary-color-cloudy";
     descriptionElement.className = "description secondary-color-cloudy";
-  } else if (description === "shower rain" || "rain") {
+  } else if (description === "shower rain" || description === "rain") {
     mainIcon.className = "wi wi-raindrops";
     background.style.backgroundImage = `url("src/images/rain.jpg")`;
     inactiveLink.className = "inactive secondary-color-rain";
@@ -166,7 +167,7 @@ function getWeatherDesign(response) {
     background.style.backgroundImage = `url("src/images/snow.jpg")`;
     inactiveLink.className = "inactive secondary-color-snow";
     descriptionElement.className = "description secondary-color-snow";
-  } else if (description === "mist") {
+  } else {
     mainIcon.className = "wi wi-fog";
     background.style.backgroundImage = `url("src/images/foggy-weather.jpg")`;
     inactiveLink.className = "inactive secondary-color-mist";
@@ -200,6 +201,11 @@ function getUnit(data) {
     return "imperial";
   }
 }
+function getCity(city) {
+  currentCityData = city;
+}
+let currentCityData = "Greater Sudbury";
+let currentUnitData = getUnit(document.querySelector(".active").innerHTML);
 getWeatherData(["Greater Sudbury", "metric"]);
 
 let dropDownButton = document.querySelector("#drop-down-button");
@@ -220,8 +226,3 @@ let farenheitClasses = farenheitLink.classList;
 let celciusClasses = celciusLink.classList;
 celciusLink.addEventListener("click", celciusClick);
 farenheitLink.addEventListener("click", farenheitClick);
-
-let currentCityData = document
-  .querySelector("#current-city")
-  .innerHTML.replace(/,*$/, "");
-let currentUnitData = getUnit(document.querySelector(".active").innerHTML);
