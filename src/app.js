@@ -10,12 +10,20 @@ function closeDropDown(event) {
   dropDown.classList.add("hidden");
   dropDownButton.classList.remove("hidden");
 }
-function getWeatherData(city) {
+function getWeatherData(data) {
   let apiKey = "5332bf2a40c7e9tc684f12abo0f0ab54";
   let apiUrl = "https://api.shecodes.io/weather/v1/current?";
-  axios.get(`${apiUrl}query=${city}&key=${apiKey}`).then(showCurrentWeather);
-  axios.get(`${apiUrl}query=${city}&key=${apiKey}`).then(getTimeData);
-  axios.get(`${apiUrl}query=${city}&key=${apiKey}`).then(getWeatherDesign);
+  let city = data[0];
+  let unit = data[1];
+  axios
+    .get(`${apiUrl}query=${city}&key=${apiKey}&units=${unit}`)
+    .then(showCurrentWeather);
+  axios
+    .get(`${apiUrl}query=${city}&key=${apiKey}&units=${unit}`)
+    .then(getTimeData);
+  axios
+    .get(`${apiUrl}query=${city}&key=${apiKey}&units=${unit}`)
+    .then(getWeatherDesign);
 }
 function showCurrentWeather(response) {
   let currentCity = document.querySelector("#current-city");
@@ -101,23 +109,29 @@ function getGeoWeatherData(response) {
   let apiUrl = "https://api.shecodes.io/weather/v1/current?";
   let latitude = response.coords.latitude;
   let longitude = response.coords.longitude;
+  let unit = currentUnitData;
   axios
-    .get(`${apiUrl}&lat=${latitude}&lon=${longitude}&key=${apiKey}`)
+    .get(
+      `${apiUrl}&lat=${latitude}&lon=${longitude}&key=${apiKey}&units=${unit}`
+    )
     .then(showCurrentWeather);
   axios
-    .get(`${apiUrl}&lat=${latitude}&lon=${longitude}&key=${apiKey}`)
+    .get(
+      `${apiUrl}&lat=${latitude}&lon=${longitude}&key=${apiKey}&units=${unit}`
+    )
     .then(getTimeData);
   axios
-    .get(`${apiUrl}&lat=${latitude}&lon=${longitude}&key=${apiKey}`)
+    .get(
+      `${apiUrl}&lat=${latitude}&lon=${longitude}&key=${apiKey}&units=${unit}`
+    )
     .then(getWeatherDesign);
 }
 function searchCity(response) {
   response.preventDefault();
   let city = document.querySelector("#city-search-bar");
-  getWeatherData(city.value);
+  getWeatherData([city.value, currentUnitData]);
 }
 function getWeatherDesign(response) {
-  console.log(response);
   let description = response.data.condition.description;
   let background = document.querySelector(".background");
   let mainIcon = document.querySelector("#main-icon");
@@ -164,15 +178,29 @@ function celciusClick() {
   farenheitLink.classList.add("inactive");
   farenheitLink.classList.add(`${celciusClasses}`);
   celciusLink.classList.remove(`${celciusClasses}`);
+  celciusLink.classList.add("active");
+  farenheitLink.classList.remove("active");
+  let unit = "metric";
+  getWeatherData([currentCityData, unit]);
 }
 function farenheitClick() {
   farenheitLink.classList.remove("inactive");
   celciusLink.classList.add("inactive");
   celciusLink.classList.add(`${farenheitClasses}`);
   farenheitLink.classList.remove(`${farenheitClasses}`);
+  celciusLink.classList.remove("active");
+  farenheitLink.classList.add("active");
+  let unit = "imperial";
+  getWeatherData([currentCityData, unit]);
 }
-
-getWeatherData("Greater Sudbury");
+function getUnit(data) {
+  if (data === "°C") {
+    return "metric";
+  } else if (data === "°F") {
+    return "imperial";
+  }
+}
+getWeatherData(["Greater Sudbury", "metric"]);
 
 let dropDownButton = document.querySelector("#drop-down-button");
 dropDownButton.addEventListener("click", openDropDown);
@@ -190,7 +218,10 @@ let celciusLink = document.querySelector("#celcius-link");
 let farenheitLink = document.querySelector("#farenheit-link");
 let farenheitClasses = farenheitLink.classList;
 let celciusClasses = celciusLink.classList;
-console.log(farenheitClasses.value);
-console.log(celciusClasses.value);
 celciusLink.addEventListener("click", celciusClick);
 farenheitLink.addEventListener("click", farenheitClick);
+
+let currentCityData = document
+  .querySelector("#current-city")
+  .innerHTML.replace(/,*$/, "");
+let currentUnitData = getUnit(document.querySelector(".active").innerHTML);
