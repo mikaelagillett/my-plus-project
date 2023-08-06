@@ -25,6 +25,7 @@ function getWeatherData(data) {
     .get(`${apiUrl}query=${city}&key=${apiKey}&units=${unit}`)
     .then(getWeatherDesign);
   getCity(city);
+  getUnit(unit);
 }
 function showCurrentWeather(response) {
   let currentCity = document.querySelector("#current-city");
@@ -194,19 +195,21 @@ function farenheitClick() {
   let unit = "imperial";
   getWeatherData([currentCityData, unit]);
 }
-function getUnit(data) {
-  if (data === "°C") {
-    return "metric";
-  } else if (data === "°F") {
-    return "imperial";
+function getUnit(unit) {
+  if (unit === "°C") {
+    currentUnitData = "metric";
+  } else if (unit === "°F") {
+    currentUnitData = "imperial";
+  } else {
+    currentUnitData = unit;
   }
 }
 function getCity(city) {
   currentCityData = city;
 }
 let currentCityData = "Greater Sudbury";
-let currentUnitData = getUnit(document.querySelector(".active").innerHTML);
-getWeatherData(["Greater Sudbury", "metric"]);
+let currentUnitData = "metric";
+getWeatherData([currentCityData, currentUnitData]);
 
 let dropDownButton = document.querySelector("#drop-down-button");
 dropDownButton.addEventListener("click", openDropDown);
