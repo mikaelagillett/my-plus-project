@@ -24,8 +24,8 @@ function getWeatherData(data) {
   axios
     .get(`${apiUrl}query=${city}&key=${apiKey}&units=${unit}`)
     .then(getWeatherDesign);
-  getCity(city);
   getUnit(unit);
+  getForecastData([currentCityData, currentUnitData]);
 }
 function showCurrentWeather(response) {
   let currentCity = document.querySelector("#current-city");
@@ -45,6 +45,7 @@ function showCurrentWeather(response) {
   currentFeelsLike.innerHTML = Math.round(response.data.temperature.feels_like);
   currentHumidity.innerHTML = response.data.temperature.humidity;
   currentWindSpeed.innerHTML = Math.round(response.data.wind.speed);
+  getCity(response.data.city);
 }
 function getTimeData(response) {
   let latitude = response.data.coordinates.latitude;
@@ -53,6 +54,7 @@ function getTimeData(response) {
   let apiUrl = `http://api.timezonedb.com/v2.1/get-time-zone?key=${apiKey}&format=json&by=position&lat=${latitude}&lng=${longitude}`;
 
   axios.get(apiUrl).then(showTime);
+  axios.get(apiUrl).then(getForecastDays);
 }
 function showTime(response) {
   let currentDate = document.querySelector("#current-date");
@@ -127,11 +129,13 @@ function getGeoWeatherData(response) {
       `${apiUrl}&lat=${latitude}&lon=${longitude}&key=${apiKey}&units=${unit}`
     )
     .then(getWeatherDesign);
+  getUnit(unit);
 }
 function searchCity(response) {
   response.preventDefault();
   let city = document.querySelector("#city-search-bar");
   getWeatherData([city.value, currentUnitData]);
+  getForecastData([city.value, currentUnitData]);
 }
 function getWeatherDesign(response) {
   let description = response.data.condition.description;
@@ -142,37 +146,45 @@ function getWeatherDesign(response) {
   if (description === "clear sky") {
     mainIcon.className = "wi wi-day-sunny";
     background.style.backgroundImage = `url("src/images/clear.jpg")`;
-    inactiveLink.className = "inactive secondary-color-clear";
-    descriptionElement.className = "description secondary-color-clear";
-  } else if (
-    description === "few clouds" ||
-    description === "scattered clouds" ||
-    description === "broken clouds"
-  ) {
+    currentSecondaryColor = "secondary-color-clear";
+    inactiveLink.className = `inactive ${currentSecondaryColor}`;
+    descriptionElement.className = `description ${currentSecondaryColor}`;
+  } else if (description.includes("clouds" || "cloudy")) {
     mainIcon.className = "wi wi-cloudy";
     background.style.backgroundImage = `url("src/images/clouds.jpg")`;
-    inactiveLink.className = "inactive secondary-color-cloudy";
-    descriptionElement.className = "description secondary-color-cloudy";
-  } else if (description === "shower rain" || description === "rain") {
+    currentSecondaryColor = "secondary-color-cloudy";
+    inactiveLink.className = `inactive ${currentSecondaryColor}`;
+    descriptionElement.className = `description ${currentSecondaryColor}`;
+  } else if (description.includes("rain")) {
     mainIcon.className = "wi wi-raindrops";
     background.style.backgroundImage = `url("src/images/rain.jpg")`;
-    inactiveLink.className = "inactive secondary-color-rain";
-    descriptionElement.className = "description secondary-color-rain";
+    currentSecondaryColor = "secondary-color-rain";
+    inactiveLink.className = `inactive ${currentSecondaryColor}`;
+    descriptionElement.className = `description ${currentSecondaryColor}`;
   } else if (description === "thunderstorm") {
     mainIcon.className = "wi wi-lightning";
     background.style.backgroundImage = `url("src/images/thunderstorm.jpg")`;
-    inactiveLink.className = "inactive secondary-color-thunderstorm";
-    descriptionElement.className = "description secondary-color-thunderstorm";
+    currentSecondaryColor = "secondary-color-thunderstorm";
+    inactiveLink.className = `inactive ${currentSecondaryColor}`;
+    descriptionElement.className = `description ${currentSecondaryColor}`;
   } else if (description === "snow") {
     mainIcon.className = "wi wi-snowflake";
     background.style.backgroundImage = `url("src/images/snow.jpg")`;
-    inactiveLink.className = "inactive secondary-color-snow";
-    descriptionElement.className = "description secondary-color-snow";
-  } else {
+    currentSecondaryColor = "secondary-color-snow";
+    inactiveLink.className = `inactive ${currentSecondaryColor}`;
+    descriptionElement.className = `description ${currentSecondaryColor}`;
+  } else if (description === "mist") {
     mainIcon.className = "wi wi-fog";
     background.style.backgroundImage = `url("src/images/foggy-weather.jpg")`;
-    inactiveLink.className = "inactive secondary-color-mist";
-    descriptionElement.className = "description secondary-color-mist";
+    currentSecondaryColor = "secondary-color-mist";
+    inactiveLink.className = `inactive ${currentSecondaryColor}`;
+    descriptionElement.className = `description ${currentSecondaryColor}`;
+  } else {
+    mainIcon.className = "wi wi-cloudy";
+    background.style.backgroundImage = `url("src/images/foggy-weather.jpg")`;
+    currentSecondaryColor = "secondary-color-mist";
+    inactiveLink.className = `inactive ${currentSecondaryColor}`;
+    descriptionElement.className = `description ${currentSecondaryColor}`;
   }
 }
 function celciusClick() {
@@ -207,31 +219,139 @@ function getUnit(unit) {
 function getCity(city) {
   currentCityData = city;
 }
-function displayForecast() {
+function getForecastData(data) {
+  let city = data[0];
+  let unit = data[1];
+  let apiKey = "5332bf2a40c7e9tc684f12abo0f0ab54";
+  let apiUrl = `https://api.shecodes.io/weather/v1/forecast?query=${city}&key=${apiKey}&units=${unit}`;
+  axios.get(apiUrl).then(displayForecast);
+}
+function displayForecast(response) {
   let forecastSection = document.querySelector("#forecast");
   let forecastHTML = `<hr />`;
-  let days = ["Thursday", "Friday", "Saturday", "Sunday"];
-  days.forEach(function (day) {
-    forecastHTML =
-      forecastHTML +
-      `<div class="col-5">
+  let forecastDays = response.data.daily;
+  forecastDays.forEach(function (forecast, index) {
+    if (index < 4) {
+      forecastHTML =
+        forecastHTML +
+        `<div class="col-5">
             <span class="forecast-day" id="forecast-day"
-              >${day} <br />
-              <span class="forecast-date" id="forecast-date"
-                >August 3rd, 2023</span
+              >${getDay(index)} <br />
+              <span class="forecast-date ${currentSecondaryColor}" id="forecast-date"
+                >${getDate(index)}</span
               >
             </span>
           </div>
-          <div class="forecast-weather col-7">
-            <span class="forecast-temp" id="forecast-temp">24°</span>
-            <span><i class="wi wi-cloudy" id="forecast-icon"></i></span>
+          <div class="col-4"></div>
+          <div class="forecast-weather col-3">
+            <span class="forecast-temp" id="forecast-temp">${Math.round(
+              forecast.temperature.day
+            )}°</span>
+            <span>${getIcon(forecast.condition.description)}</span>
           </div>
           <hr />`;
+    }
   });
   forecastSection.innerHTML = forecastHTML;
 }
+function getForecastDays(response) {
+  let fullDate = new Date(response.data.formatted);
+  let day = fullDate.getDay();
+  let month = fullDate.getMonth();
+  let year = fullDate.getFullYear();
+  let date = fullDate.getDate();
+  currentDay = day;
+  currentMonth = month;
+  currentYear = year;
+  currentDate = date;
+  getForecastData([currentCityData, currentUnitData]);
+}
+function getDay(day) {
+  let days = [
+    "Sunday",
+    "Monday",
+    "Tuesday",
+    "Wednesday",
+    "Thursday",
+    "Friday",
+    "Saturday",
+  ];
+  day = day + 1;
+  if (currentDay + day > 7) {
+    forecastDayOfTheWeek = days[day];
+    return `${forecastDayOfTheWeek}`;
+  } else {
+    forecastDayOfTheWeek = days[currentDay + day];
+    return `${forecastDayOfTheWeek}`;
+  }
+}
+function getDate(day) {
+  let months = [
+    "January",
+    "February",
+    "March",
+    "April",
+    "May",
+    "June",
+    "July",
+    "August",
+    "September",
+    "October",
+    "November",
+    "December",
+  ];
+  day = day + 1;
+  monthsThirtyOne = [0, 2, 4, 6, 7, 9, 11];
+  monthsThirty = [3, 5, 8, 10];
+  if (currentDate + day > 31 && monthsThirtyOne.includes(currentMonth)) {
+    forecastDate = day;
+    if (currentMonth === 11) {
+      forecastMonth = months[0];
+      forecastYear = currentYear + 1;
+    } else {
+      forecastMonth = months[currentMonth + 1];
+      forecastYear = currentYear;
+    }
+  } else if (currentDay + day > 30 && monthsThirty.includes(currentMonth)) {
+    forecastDate = day;
+    forecastMonth = months[currentMonth + 1];
+    forecastYear = currentYear;
+  } else if (currentDay + day > 28 && currentMonth === 1) {
+    forecastDate = day;
+    forecastMonth = months[currentMonth + 1];
+    forecastYear = currentYear;
+  } else {
+    forecastDate = currentDate + day;
+    forecastMonth = months[currentMonth];
+    forecastYear = currentYear;
+  }
+  let forecastSuffix = getSuffix(forecastDate);
+  return `${forecastMonth} ${forecastDate}${forecastSuffix}, ${forecastYear}`;
+}
+function getIcon(description) {
+  if (description === "clear sky") {
+    return `<i class="wi wi-day-sunny"></i>`;
+  } else if (description.includes("clouds" || "cloudy")) {
+    return `<i class="wi wi-cloudy"></i>`;
+  } else if (description.includes("rain")) {
+    return `<i class="wi wi-raindrops"></i>`;
+  } else if (description === "thunderstorm") {
+    return `<i class="wi wi-lightning"></i>`;
+  } else if (description === "snow") {
+    return `<i class="wi wi-snowflake"></i>`;
+  } else if (description === "mist") {
+    return `<i class="wi wi-fog"></i>`;
+  } else {
+    return `<i class="wi wi-cloudy"></i>`;
+  }
+}
 let currentCityData = "Greater Sudbury";
 let currentUnitData = "metric";
+let currentDay = "";
+let currentDate = "";
+let currentMonth = "";
+let currentYear = "";
+let currentSecondaryColor = "";
 getWeatherData([currentCityData, currentUnitData]);
 
 let dropDownButton = document.querySelector("#drop-down-button");
@@ -252,5 +372,3 @@ let farenheitClasses = farenheitLink.classList;
 let celciusClasses = celciusLink.classList;
 celciusLink.addEventListener("click", celciusClick);
 farenheitLink.addEventListener("click", farenheitClick);
-
-displayForecast();
