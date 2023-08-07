@@ -52,6 +52,11 @@ footer {
 footer a {
   color: rgb(255, 255, 255);
 }
+hr {
+  margin: 10px 0 !important;
+  color: black !important;
+  opacity: 0.4 !important;
+}
 .description {
   font-weight: 700;
   font-size: 12px;
@@ -99,6 +104,19 @@ footer a {
   display: flex;
   justify-content: center;
   font-weight: 600;
+}
+.forecast-weather {
+  font-size: 30px;
+  text-align: right;
+}
+.forecast-temp {
+  font-weight: 600;
+}
+.forecast-day {
+  font-weight: 600;
+}
+.forecast-date {
+  font-weight: 500;
 }
 .inactive {
   text-decoration: underline;
