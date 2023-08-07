@@ -207,6 +207,29 @@ function getUnit(unit) {
 function getCity(city) {
   currentCityData = city;
 }
+function displayForecast() {
+  let forecastSection = document.querySelector("#forecast");
+  let forecastHTML = `<hr />`;
+  let days = ["Thursday", "Friday", "Saturday", "Sunday"];
+  days.forEach(function (day) {
+    forecastHTML =
+      forecastHTML +
+      `<div class="col-5">
+            <span class="forecast-day" id="forecast-day"
+              >${day} <br />
+              <span class="forecast-date" id="forecast-date"
+                >August 3rd, 2023</span
+              >
+            </span>
+          </div>
+          <div class="forecast-weather col-7">
+            <span class="forecast-temp" id="forecast-temp">24°</span>
+            <span><i class="wi wi-cloudy" id="forecast-icon"></i></span>
+          </div>
+          <hr />`;
+  });
+  forecastSection.innerHTML = forecastHTML;
+}
 let currentCityData = "Greater Sudbury";
 let currentUnitData = "metric";
 getWeatherData([currentCityData, currentUnitData]);
@@ -229,3 +252,5 @@ let farenheitClasses = farenheitLink.classList;
 let celciusClasses = celciusLink.classList;
 celciusLink.addEventListener("click", celciusClick);
 farenheitLink.addEventListener("click", farenheitClick);
+
+displayForecast();
