@@ -25,7 +25,6 @@ function getWeatherData(data) {
     .get(`${apiUrl}query=${city}&key=${apiKey}&units=${unit}`)
     .then(getWeatherDesign);
   getUnit(unit);
-  getForecastData([currentCityData, currentUnitData]);
 }
 function showCurrentWeather(response) {
   let currentCity = document.querySelector("#current-city");
@@ -55,6 +54,7 @@ function getTimeData(response) {
 
   axios.get(apiUrl).then(showTime);
   axios.get(apiUrl).then(getForecastDays);
+  getForecastData([currentCityData, currentUnitData]);
 }
 function showTime(response) {
   let currentDate = document.querySelector("#current-date");
