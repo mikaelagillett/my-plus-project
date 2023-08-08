@@ -50,7 +50,7 @@ function getTimeData(response) {
   let latitude = response.data.coordinates.latitude;
   let longitude = response.data.coordinates.longitude;
   let apiKey = "CQESC99IXFQ0";
-  let apiUrl = `http://api.timezonedb.com/v2.1/get-time-zone?key=${apiKey}&format=json&by=position&lat=${latitude}&lng=${longitude}`;
+  let apiUrl = `https://api.timezonedb.com/v2.1/get-time-zone?key=${apiKey}&format=json&by=position&lat=${latitude}&lng=${longitude}`;
 
   axios.get(apiUrl).then(showTime);
   axios.get(apiUrl).then(getForecastDays);
