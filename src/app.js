@@ -49,7 +49,7 @@ function showCurrentWeather(response) {
 function getTimeData(response) {
   let latitude = response.data.coordinates.latitude;
   let longitude = response.data.coordinates.longitude;
-  let apiKey = "6TJ220JA0JSG";
+  let apiKey = "CQESC99IXFQ0";
   let apiUrl = `http://api.timezonedb.com/v2.1/get-time-zone?key=${apiKey}&format=json&by=position&lat=${latitude}&lng=${longitude}`;
 
   axios.get(apiUrl).then(showTime);
